@@ -1,0 +1,24 @@
+// See https://aka.ms/new-console-template for more information
+using System.Diagnostics;
+using System.Net;
+using static System.Console;
+
+class Program
+{
+    static void Main(String[] args)
+    {
+        WebRequest Request = WebRequest.Create("https://www.facebook.com/reel/946116910442385");
+        Request.Credentials = CredentialCache.DefaultCredentials;
+        HttpWebResponse response = (HttpWebResponse)Request.GetResponse();
+        Console.WriteLine("Status: "+response.StatusDescription);
+        Console.WriteLine(new string('+', 50));
+        Stream dataStream = response.GetResponseStream();
+        StreamReader reader = new StreamReader(dataStream);
+        string responseFormServer = reader.ReadToEnd();
+        Console.WriteLine(responseFormServer);
+        Console.WriteLine(new string('+', 50));
+        reader.Close();
+        dataStream.Close();
+        response.Close();
+    }
+}
